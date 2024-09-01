@@ -1,6 +1,8 @@
 import { LoaderFunction, useLoaderData, useRouteError, useRouteLoaderData } from "react-router-dom";
 import { JobListing } from "../types/type";
 import JobListingCard from "../components/home/JobListingCard";
+import { useContext } from "react";
+import { AuthContext } from "../Context";
 
 interface LoaderData  {
   jobs: Array<JobListing | any>;
@@ -27,7 +29,9 @@ const Home =  () => {
 }
 
 export const loader = async (): Promise<LoaderData> => {
-  const res = await fetch('http://localhost:8000/api/jobs');
+
+  try{
+    const res = await fetch('https://kudoverse-backend.onrender.com/api/jobs');
 
   
   if(!res.ok){
@@ -35,7 +39,14 @@ export const loader = async (): Promise<LoaderData> => {
     throw new Error('Failed to fetch data');
   }
   const data = await res.json();
+
   return data;
+  }catch(error){
+    console.log(error)
+    return {
+      jobs: []
+    }
+  }
 }
 
 export default Home

@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate, useNavigation } from 'react-router-dom'
+import { useNavigate, useNavigation, useSearchParams } from 'react-router-dom'
+import { AuthContext } from '../Context'
 
 const Login = () => {
 
@@ -12,13 +13,24 @@ const Login = () => {
             password: ''
         }
     })
+    const {login, isLoggedin} = useContext(AuthContext);
 
+    useEffect(() => {
+        if(isLoggedin){
+            navigate('/');
+        }
+    }, [isLoggedin])
+
+    const params = useSearchParams()
+    const [callback, setCallback] = useState(params[0].get('callback') || '/');
+
+    
     const onSubmit = async (data: {
         email: string,
         password: string
     }) => {
 
-        const res = await fetch('http://localhost:8000/api/user/login', {
+        const res = await fetch('https://kudoverse-backend.onrender.com/api/user/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -33,7 +45,9 @@ const Login = () => {
         const resData = await res.json();
         localStorage.setItem('token', resData.token);
         localStorage.setItem('user', JSON.stringify(resData.user));
-        navigate('/');
+        login(resData.token, resData.user);
+
+        navigate(callback);
         
     }
 

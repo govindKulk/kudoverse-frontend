@@ -19,7 +19,7 @@ const Register = () => {
         password: string
     }) => {
 
-        const res = await fetch('http://localhost:8000/api/user/register', {
+        const res = await fetch('https://kudoverse-backend.onrender.com/api/user/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -46,7 +46,7 @@ const Register = () => {
 
             <form className='w-full sm:w-[540px]' onSubmit={handleSubmit(onSubmit)}>
                 <div className='flex flex-col gap-4 rounded-md shadow-md border-gray-50 px-4 py-4'>
-                    <h1 className='text-3xl font-bold'>Login</h1>
+                    <h1 className='text-3xl font-bold'>Sign UP</h1>
                     <div className='flex flex-col gap-2'>
                         <label htmlFor='email'>Email</label>
 
@@ -84,7 +84,7 @@ const Register = () => {
 
                         {errors.password && <p className='text-red-500'>{errors.password.message}</p>}
                     </div>
-                    <button type='submit' className='bg-blue-400 text-white p-2 rounded-md'>Login</button>
+                    <button type='submit' className='bg-blue-400 text-white p-2 rounded-md'>Sign UP</button>
                 </div>
             </form>
         </div>
